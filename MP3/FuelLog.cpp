@@ -65,5 +65,11 @@ int indexOfSmallest(double values[], int count) {
 }
 
 int indexOfLargest(double values[], int count) {
-
+	int largest = values[0];
+	for (int i = 0; i < count; i++) {
+		if (largest < values[i]) {
+			largest = values[i];
+		}
+	}
+	return largest;
 }
