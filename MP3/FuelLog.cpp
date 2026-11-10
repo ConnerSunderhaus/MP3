@@ -55,7 +55,13 @@ double sumOf(double values[], int count) {
 }
 
 int indexOfSmallest(double values[], int count) {
-
+	int smallest = values[0];
+	for (int i = 0; i < count; i++) {
+		if (smallest > values[i]) {
+			smallest = values[i];
+		}
+	}
+	return smallest;
 }
 
 int indexOfLargest(double values[], int count) {
