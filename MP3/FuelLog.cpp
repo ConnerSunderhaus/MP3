@@ -17,6 +17,7 @@ double milesPerGallon(double miles, double gallons);
 double fillUpCost(double amount, double pricePerUnit);
 double toGallons(double amount, char unit);
 
+const int FILL_UPS = 20;
 
 void main() {
 
@@ -24,7 +25,10 @@ void main() {
 
 
 double toGallons(double amount, char unit) {
-
+	if (unit == 'G' || unit == 'g') {
+		amount *= 3.785;
+	}
+	return amount;
 }
 
 double fillUpCost(double amount, double pricePerUnit) {
