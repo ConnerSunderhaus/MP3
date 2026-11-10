@@ -9,6 +9,15 @@
 
 using namespace std;
 
+int indexOfLargest(double values[], int count);
+int indexOfSmallest(double values[], int count);
+double sumOf(double values[], int count);
+double costPerMile(double cost, double miles);
+double milesPerGallon(double miles, double gallons);
+double fillUpCost(double amount, double pricePerUnit);
+double toGallons(double amount, char unit);
+
+
 void main() {
 
 }
