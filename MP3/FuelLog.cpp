@@ -37,7 +37,8 @@ double fillUpCost(double amount, double pricePerUnit) {
 }
 
 double milesPerGallon(double miles, double gallons) {
-
+	double mpg = miles * gallons;
+	return mpg;
 }
 
 double costPerMile(double cost, double miles) {
