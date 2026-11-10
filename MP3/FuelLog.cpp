@@ -32,7 +32,8 @@ double toGallons(double amount, char unit) {
 }
 
 double fillUpCost(double amount, double pricePerUnit) {
-
+	double cost = amount * pricePerUnit;
+	return cost;
 }
 
 double milesPerGallon(double miles, double gallons) {
