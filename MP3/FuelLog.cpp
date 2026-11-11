@@ -29,6 +29,7 @@ void main() {
 	double miles[MAX_FILL_UPS];
 	double gallons[MAX_FILL_UPS];
 	double mpg[MAX_FILL_UPS];
+	double cpg[MAX_FILL_UPS];
 	double cpm[MAX_FILL_UPS];
 	int fillUps = 0;
 	double budget;
@@ -44,10 +45,14 @@ void main() {
 			cout << "Error -- you can only enter 20 fill-ups";
 			return;
 		}
+
 		for (int i = 0; i < fillUps; i++) {
 			cout << "Fill-up " << i + 1 << " (odometer, amount, G or L, price, total): ";
-			cin >> odometer[i + 1] >> fuelAmt[i] >> fuelUnit[i] >> cost[i];
-			miles[i] = odometer[i] - odometer[i + 1];
+			cin >> odometer[i + 1] >> fuelAmt[i] >> fuelUnit[i] >> cpg[i] >> cost[i];
+		}
+
+		for (int i = 0; i < fillUps; i++) {
+			miles[i] = odometer[i + 1] - odometer[i];
 			gallons[i] = toGallons(fuelAmt[i], fuelUnit[i]);
 			mpg[i] = milesPerGallon(miles[i], gallons[i]);
 			cpm[i] = costPerMile(cost[i], miles[i]);
@@ -58,15 +63,15 @@ void main() {
 
 		cout << "Leg   Miles   Gallons   MPG     Cost  Cost/mile" << endl;
 		for (int i = 0; i < fillUps; i++) {
-			printf("%3d%8f%10.2f%6.1f  $%6.2f  $%7.2f\n", leg, miles[i], fuelAmt[i], mpg[i], cost[i], cpm[i]);
+			printf("%3d%8.0f%10.2f%6.1f  $%6.3f  $%7.2f\n", i + 1, miles[i], gallons[i], cost[i], cpg[i], cpm[i]);
 		}
 		printf("Total miles: %.0f\n", sumOf(miles, fillUps));
 		printf("Total gallons: %.0f\n", sumOf(gallons, fillUps));
 		printf("Overall MPG: %.3f\n", averageOf(mpg, fillUps));
 		printf("Total fuel cost: %.2f\n", sumOf(cost, fillUps));
-		printf("Cheapest leg per mile: %d\n", indexOfSmallest(cpm, fillUps));
-		printf("Most expensive leg per mile: %d\n", indexOfLargest(cpm, fillUps));
-		printf("%.2f budget used out of $%.2f", sumOf(cost, fillUps), budget);
+		printf("Cheapest leg per mile: Leg %d\n", indexOfSmallest(cpm, fillUps) + 1);
+		printf("Most expensive leg per mile: Leg %d\n", indexOfLargest(cpm, fillUps) + 1);
+		printf("%.2f budget used out of $%.2f\n", sumOf(cost, fillUps), budget);
 }
 
 double averageOf(double amt1[], int size) {
@@ -78,8 +83,8 @@ double averageOf(double amt1[], int size) {
 }
 
 double toGallons(double amount, char unit) {
-	if (unit == 'G' || unit == 'g') {
-		amount *= 3.785;
+	if (unit == 'L' || unit == 'l') {
+		amount /= 3.785;
 	}
 	return amount;
 }
