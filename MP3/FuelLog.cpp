@@ -5,7 +5,6 @@
 
 using namespace std;
 
-// Required function prototypes from original MP3 specification
 double toGallons(double amount, char unit);
 double fillUpCost(double amount, double pricePerUnit);
 double milesPerGallon(double miles, double gallons);
@@ -13,14 +12,12 @@ double costPerMile(double cost, double miles);
 double sumOf(double values[], int count);
 int indexOfSmallest(double values[], int count);
 int indexOfLargest(double values[], int count);
-
-// Required function prototypes from MP3 Change Request (Exchange Rates)
 int dayOfYear(int month, int day);
 int loadRates(string fileName, double rates[], int size);
 void fillMissingRates(double rates[], int size);
 
 const int MAX_FILLUPS = 20;
-const int DAYS_IN_YEAR = 366;
+const int DAYS_IN_YEAR = 366; // plus one because was told not to use index 0
 
 int main() {
     double rates[DAYS_IN_YEAR];
@@ -157,7 +154,9 @@ int main() {
 
     return 0;
 }
-
+// converts a fuel amount to gallons if it was entered in liters
+// @params amount is the amount of fuel pumped
+// @params unit is the unit letter ('G' for gallons or 'L' for liters)
 double toGallons(double amount, char unit) {
     if (unit == 'L' || unit == 'l') {
         amount /= 3.785;
@@ -165,18 +164,30 @@ double toGallons(double amount, char unit) {
     return amount;
 }
 
+// computes the total cost of a single fill-up from amount and price per unit
+// @params amount is the amount of fuel pumped
+// @params pricePerUnit is the price per gallon or liter shown on the pump
 double fillUpCost(double amount, double pricePerUnit) {
     return amount * pricePerUnit;
 }
 
+// calculates fuel efficiency in miles per gallon for a leg or trip
+// @params miles is the distance driven in miles
+// @params gallons is the amount of fuel used in gallons
 double milesPerGallon(double miles, double gallons) {
     return miles / gallons;
 }
 
+// calculates the fuel cost per mile driven
+// @params cost is the total fuel cost in U.S. dollars
+// @params miles is the distance driven in miles
 double costPerMile(double cost, double miles) {
     return cost / miles;
 }
 
+// computes the sum of the first count elements in the array
+// @params values[] is the array whose elements are being summed
+// @params count is the number of elements in the array to sum
 double sumOf(double values[], int count) {
     double total = 0.0;
     for (int i = 0; i < count; i++) {
@@ -185,6 +196,9 @@ double sumOf(double values[], int count) {
     return total;
 }
 
+// finds the index in the array given that is the smallest
+// @params values[] is the array that is being searched
+// @params count is the size of the array being used
 int indexOfSmallest(double values[], int count) {
     int smallest = 0;
     for (int i = 1; i < count; i++) {
@@ -195,6 +209,9 @@ int indexOfSmallest(double values[], int count) {
     return smallest;
 }
 
+// finds the index in the array given that is the largest
+// @params values[] is the array that is being searched
+// @params count is the size of the array being used
 int indexOfLargest(double values[], int count) {
     int largest = 0;
     for (int i = 1; i < count; i++) {
@@ -205,6 +222,9 @@ int indexOfLargest(double values[], int count) {
     return largest;
 }
 
+// returns the 1-based day of the year in 2026, or -1 if the date is invalid
+// @params month is the month number (1 to 12)
+// @params day is the day of the month
 int dayOfYear(int month, int day) {
     int daysInMonth[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     if (month < 1 || month > 12) {
@@ -221,6 +241,10 @@ int dayOfYear(int month, int day) {
     return doy;
 }
 
+// initializes the rates array to -1.0 and loads exchange rates from a CSV file
+// @params fileName is the name of the CSV file to open
+// @params rates[] is the array indexed by day of the year to store exchange rates
+// @params size is the total size of the rates array
 int loadRates(string fileName, double rates[], int size) {
     for (int i = 0; i < size; i++) {
         rates[i] = -1.0;
@@ -252,6 +276,9 @@ int loadRates(string fileName, double rates[], int size) {
     return count;
 }
 
+// fills missing weekend/holiday rates between the first and last valid rate with the previous day's rate
+// @params rates[] is the array of daily exchange rates indexed by day of the year
+// @params size is the total size of the rates array
 void fillMissingRates(double rates[], int size) {
     int firstDay = -1;
     int lastDay = -1;
